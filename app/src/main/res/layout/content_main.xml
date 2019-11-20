@@ -1,20 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_main"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/conn_state"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/colorNegative"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="@string/text_disconn"
+        android:textColor="@color/colorWhite" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <EditText
+        android:id="@+id/text_device_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:gravity="center"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="4dp">
+            <TextView
+                android:id="@+id/text_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"/>
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graph_accel_mag"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/graph_height" />
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graph_accel_x"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/graph_height"
+                android:layout_marginTop="8dp"/>
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graph_accel_y"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/graph_height"
+                android:layout_marginTop="8dp"/>
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graph_accel_z"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/graph_height"
+                android:layout_marginTop="8dp"/>
+
+<!--            <com.jjoe64.graphview.GraphView-->
+<!--                android:id="@+id/graph_gyro_x"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/graph_height" />-->
+
+<!--            <com.jjoe64.graphview.GraphView-->
+<!--                android:id="@+id/graph_gyro_y"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/graph_height" />-->
+
+<!--            <com.jjoe64.graphview.GraphView-->
+<!--                android:id="@+id/graph_gyro_z"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/graph_height" />-->
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_config"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/btn_config"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16dp">
+
+    <Button
+        android:id="@+id/btn_connect"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/btn_connect"/>
+
+    <Button
+        android:id="@+id/btn_disconnect"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="16dp"
+        android:text="@string/btn_disconnect"/>
+
+    </LinearLayout>
+
+</LinearLayout>

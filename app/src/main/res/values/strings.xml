@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">E-Sense App</string>
     <string name="action_settings">Settings</string>
+    <string name="btn_connect">connect</string>
+    <string name="btn_disconnect">disconnect</string>
+    <string name="btn_config">start</string>
+    <string name="text_conn">connected</string>
+    <string name="text_found">device found</string>
+    <string name="text_notfound">device not found</string>
+    <string name="text_disconn">disconnected</string>
 </resources>
