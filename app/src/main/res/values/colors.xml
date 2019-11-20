@@ -8,4 +8,9 @@
     <color name="colorNegative">#F28080</color>
     <color name="colorNeutral">#FFD966</color>
     <color name="colorWhite">#FFFFFF</color>
+
+    <color name="colorGraphBlue">#4285f4</color>
+    <color name="colorGraphRed">#db4437</color>
+    <color name="colorGraphGreen">#0f9d58</color>
+    <color name="colorGraphYellow">#f4b400</color>
 </resources>

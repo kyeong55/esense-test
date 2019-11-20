@@ -25,7 +25,7 @@
         android:id="@+id/text_device_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:gravity="center"/>
@@ -39,16 +39,30 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="4dp">
-            <TextView
-                android:id="@+id/text_value"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/text_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="16dp"/>
+                <TextView
+                    android:id="@+id/text_step"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="0"
+                    android:textStyle="bold"
+                    android:textSize="30sp"/>
+            </LinearLayout>
 
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/graph_accel_mag"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/graph_height" />
+                android:layout_height="@dimen/graph_height_big" />
 
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/graph_accel_x"
@@ -68,20 +82,20 @@
                 android:layout_height="@dimen/graph_height"
                 android:layout_marginTop="8dp"/>
 
-<!--            <com.jjoe64.graphview.GraphView-->
-<!--                android:id="@+id/graph_gyro_x"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/graph_height" />-->
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graph_gyro_x"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/graph_height" />
 
-<!--            <com.jjoe64.graphview.GraphView-->
-<!--                android:id="@+id/graph_gyro_y"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/graph_height" />-->
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graph_gyro_y"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/graph_height" />
 
-<!--            <com.jjoe64.graphview.GraphView-->
-<!--                android:id="@+id/graph_gyro_z"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/graph_height" />-->
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graph_gyro_z"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/graph_height" />
         </LinearLayout>
     </ScrollView>
 
@@ -98,13 +112,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="16dp">
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp">
 
     <Button
         android:id="@+id/btn_connect"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_margin="8dp"
         android:text="@string/btn_connect"/>
 
     <Button
@@ -112,8 +129,34 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginLeft="16dp"
+        android:layout_margin="8dp"
         android:text="@string/btn_disconnect"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/btn_play"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:text="play"/>
+
+        <Button
+            android:id="@+id/btn_stop"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:text="stop"/>
 
     </LinearLayout>
 

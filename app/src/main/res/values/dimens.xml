@@ -1,4 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="graph_height">180dp</dimen>
+    <dimen name="graph_height">150dp</dimen>
+    <dimen name="graph_height_big">180dp</dimen>
 </resources>
