@@ -1,7 +1,6 @@
 package kr.ac.kaist.taegyeong.e_senseapp;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import com.jjoe64.graphview.GraphView;
@@ -41,10 +40,9 @@ public class MainActivity extends AppCompatActivity {
     private final int GRAPH_ACCEL_MAX = 5;
     private final int GRAPH_GYRO_MAX = 800;
 
-    private final double STEP_THREASHOLD = 1.2;
     private final int SOUND_DURATION = 50;
 
-    private ESenseManager manager;
+    private ESenseManager eSenseManager;
     private ESenseConfig sensorConfig;
 
     private TextView viewConnState;
@@ -60,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private LineGraphSeries<DataPoint> seriesGyroZ;
 
     private SoundManager mSoundManager;
+    private StepDetector mStepDetector;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -73,15 +72,13 @@ public class MainActivity extends AppCompatActivity {
         Button btnConnect = findViewById(R.id.btn_connect);
         Button btnDisconnect = findViewById(R.id.btn_disconnect);
         Button btnConfig = findViewById(R.id.btn_config);
-        Button btnPlay = findViewById(R.id.btn_play);
-        Button btnStop = findViewById(R.id.btn_stop);
         viewConnState = findViewById(R.id.conn_state);
         textSensorValue = findViewById(R.id.text_value);
         textStepCount = findViewById(R.id.text_step);
 
         setConnected(STATE_DISCONNECTED);
         textDeviceName.setText(DEVICE_NAME_DEFAULT);
-        textSensorValue.setText("N/A");
+        textSensorValue.setText("\n\nN/A\n\n");
 
         GraphView graphAccelMag = findViewById(R.id.graph_accel_mag);
         GraphView graphAccelX = findViewById(R.id.graph_accel_x);
@@ -155,12 +152,17 @@ public class MainActivity extends AppCompatActivity {
         seriesGyroZ.setColor(getColor(R.color.colorGraphGreen));
 
         mSoundManager = new SoundManager();
-
+        mStepDetector = new StepDetector(new StepDetector.StepEventListener() {
+            @Override
+            public void onStepDetected() {
+                MainActivity.this.onStepDetected();
+            }
+        });
 
         btnConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                manager = new ESenseManager(textDeviceName.getText().toString(), MainActivity.this.getApplicationContext(),
+                eSenseManager = new ESenseManager(textDeviceName.getText().toString(), MainActivity.this.getApplicationContext(),
                         new ESenseConnectionListener() {
                             @Override
                             public void onDeviceFound(ESenseManager manager) {
@@ -187,15 +189,16 @@ public class MainActivity extends AppCompatActivity {
                                 setConnected(STATE_DISCONNECTED);
                             }
                         });
-                manager.connect(DEVICE_TIMEOUT_MS);
+                eSenseManager.connect(DEVICE_TIMEOUT_MS);
             }
         });
 
         btnDisconnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                manager.unregisterSensorListener();
-                manager.disconnect();
+                eSenseManager.unregisterSensorListener();
+                eSenseManager.unregisterEventListener();
+                eSenseManager.disconnect();
             }
         });
 
@@ -203,20 +206,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "getSensorConfig");
-                manager.getSensorConfig();
-            }
-        });
-
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mSoundManager.play(100);
-            }
-        });
-        btnStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mSoundManager.pause();
+                eSenseManager.getSensorConfig();
             }
         });
     }
@@ -265,10 +255,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private long startTime = -1;
-    private boolean inStep = false;
     private int stepCount = 0;
 
-    @SuppressLint("SetTextI18n")
+    public void onStepDetected() {
+        mSoundManager.play(SOUND_DURATION);
+        runOnUiThread(new Runnable() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void run() {
+                stepCount++;
+                textStepCount.setText(stepCount + "");
+            }
+        });
+    }
+
     public void processSensorEvent(ESenseEvent evt) {
         if (startTime < 0)
             startTime = evt.getTimestamp();
@@ -283,24 +283,7 @@ public class MainActivity extends AppCompatActivity {
         double accel_mag = Math.sqrt(accel[0]*accel[0] + accel[1]*accel[1] + accel[2]*accel[2]);
 
         drawSensorValue(timestamp, accel_mag, accel, gyro);
-
-//        if (accel_mag > STEP_THREASHOLD)
-//            mSoundManager.play(SOUND_DURATION);
-
-        if (accel_mag > STEP_THREASHOLD && !inStep) {
-            inStep = true;
-            mSoundManager.play(SOUND_DURATION);
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    stepCount++;
-                    textStepCount.setText(stepCount + "");
-                }
-            });
-        } else if (accel_mag < STEP_THREASHOLD) {
-//            mSoundManager.pause();
-            inStep = false;
-        }
+        mStepDetector.feedData(timestamp, accel_mag, accel, gyro);
     }
 
     private int count = 0;

@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class SoundManager {
-    private final String TAG = "SqueakyManager";
+    private final String TAG = "StepDetector";
 
     private final int SOUND_SAMPLE_RATE = 8000;
     private final double SOUND_FREQ = 500;
